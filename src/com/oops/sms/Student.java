@@ -1,5 +1,7 @@
 package com.oops.sms;
 
+import java.util.Objects;
+
 public class Student {
 	private String name;
 	private int age;
@@ -7,7 +9,28 @@ public class Student {
 	private int marksObtainedInEnglish;
 	private int marksObtainedInMaths;
 	private int marksObtainedInScience;
+
 	private String grade;
+	private double totalMarks;
+	private double percentage;
+
+	public Student(String name, int age, int rollNumber, int marksObtainedInEnglish, int marksObtainedInMaths,
+			int marksObtainedInScience) {
+		super();
+		if (validateAge(age) && validateMarks(marksObtainedInEnglish)
+				&& validateMarks(marksObtainedInEnglish) && validateMarks(marksObtainedInScience)) {
+			this.name = name;
+			this.age = age;
+			this.rollNumber = rollNumber;
+			this.marksObtainedInEnglish = marksObtainedInEnglish;
+			this.marksObtainedInMaths = marksObtainedInMaths;
+			this.marksObtainedInScience = marksObtainedInScience;
+		}
+	}
+
+	public Student() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getName() {
 		return name;
@@ -25,7 +48,17 @@ public class Student {
 		if (age >= 10 && age < 21) {
 			this.age = age;
 		} else {
-			System.out.println("Invalid age for Student ");
+			System.err.println("Invalid age for Student ");
+		}
+
+	}
+
+	public boolean validateAge(int age) {
+		if (age >= 10 && age < 25) {
+			return true;
+		} else {
+			System.err.println("Invalid age for Student ");
+			return false;
 		}
 
 	}
@@ -35,12 +68,7 @@ public class Student {
 	}
 
 	public void setRollNumber(int rollNumber) {
-		if (rollNumber >= 1) {
-			this.rollNumber = rollNumber;
-		} else {
-			System.out.println("invalid Roll number: ");
-		}
-
+		this.rollNumber = rollNumber;
 	}
 
 	public int getMarksObtainedInEnglish() {
@@ -53,7 +81,7 @@ public class Student {
 		if (marksObtainedInEnglish >= 0 && marksObtainedInEnglish <= 100) {
 			this.marksObtainedInEnglish = marksObtainedInEnglish;
 		} else {
-			System.out.println("invalid marks for English ");
+			System.err.println("invalid marks for English ");
 		}
 
 	}
@@ -66,7 +94,7 @@ public class Student {
 		if (marksObtainedInMaths >= 0 && marksObtainedInMaths <= 100) {
 			this.marksObtainedInMaths = marksObtainedInMaths;
 		} else {
-			System.out.println("invalid marks for Maths ");
+			System.err.println("invalid marks for Maths ");
 		}
 	}
 
@@ -78,21 +106,100 @@ public class Student {
 		if (marksObtainedInScience >= 0 && marksObtainedInScience <= 100) {
 			this.marksObtainedInScience = marksObtainedInScience;
 		} else {
-			System.out.println("invalid marks for Science ");
+			System.err.println("invalid marks for Science ");
 		}
+	}
+
+	public boolean validateMarks(int marksForSubject) {
+		if (marksForSubject >= 0 && marksForSubject <= 100) {
+			return true;
+		} else {
+			System.err.println("invalid marks for subject ");
+			return false;
+		}
+
+	}
+
+	public double getTotalMarks() {
+		return totalMarks;
+	}
+
+	public double getPercentage() {
+		return percentage;
 	}
 
 	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void calculateTotalMarks() {
+		totalMarks = marksObtainedInEnglish + marksObtainedInMaths + marksObtainedInScience;
+
 	}
 
-	public void calculateToalmarks() {
-		double totalmarks = marksObtainedInEnglish + marksObtainedInMaths + marksObtainedInScience;
-		System.out.println("Total Marks obtained= " + totalmarks);
+	public void calculatePercentage() {
+		percentage = totalMarks / 3;
+	}
+
+	public void calculateGrade() {
+
+		if (percentage == 0) {
+			grade = "cannot be calculated ";
+		} else {
+			if (percentage > 90) {
+				grade = "A";
+
+			} else if (percentage > 80) {
+				grade = "B";
+
+			} else if (percentage > 75) {
+				grade = "C+";
+
+			} else if (percentage > 70) {
+				grade = "C";
+
+			} else if (percentage > 65) {
+				grade = "D+";
+
+			} else if (percentage > 60) {
+				grade = "D";
+
+			} else {
+				grade = "F";
+			}
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", age=" + age + ", rollNumber=" + rollNumber + ", marksObtainedInEnglish="
+				+ marksObtainedInEnglish + ", marksObtainedInMaths=" + marksObtainedInMaths
+				+ ", marksObtainedInScience=" + marksObtainedInScience + ", grade=" + grade + ", totalMarks="
+				+ totalMarks + ", percentage=" + percentage + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(age, grade, marksObtainedInEnglish, marksObtainedInMaths, marksObtainedInScience, name,
+				percentage, rollNumber, totalMarks);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		return age == other.age && Objects.equals(grade, other.grade)
+				&& marksObtainedInEnglish == other.marksObtainedInEnglish
+				&& marksObtainedInMaths == other.marksObtainedInMaths
+				&& marksObtainedInScience == other.marksObtainedInScience && Objects.equals(name, other.name)
+				&& Double.doubleToLongBits(percentage) == Double.doubleToLongBits(other.percentage)
+				&& rollNumber == other.rollNumber
+				&& Double.doubleToLongBits(totalMarks) == Double.doubleToLongBits(other.totalMarks);
 	}
 
 }
