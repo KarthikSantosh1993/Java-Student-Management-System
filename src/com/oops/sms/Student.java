@@ -5,6 +5,8 @@ import java.util.Objects;
 public class Student {
 	private String name;
 	private int age;
+	private String address;
+	private String contactNumber;
 	private int rollNumber;
 	private int marksObtainedInEnglish;
 	private int marksObtainedInMaths;
@@ -14,22 +16,22 @@ public class Student {
 	private double totalMarks;
 	private double percentage;
 
-	public Student(String name, int age, int rollNumber, int marksObtainedInEnglish, int marksObtainedInMaths,
-			int marksObtainedInScience) {
+	public Student(String name, int age, String address, String contactNumber, int rollNumber,
+			int marksObtainedInEnglish, int marksObtainedInMaths, int marksObtainedInScience ) {
 		super();
-		if (validateAge(age) && validateMarks(marksObtainedInEnglish)
-				&& validateMarks(marksObtainedInEnglish) && validateMarks(marksObtainedInScience)) {
+		if (validateAge(age) && validateMarks(marksObtainedInEnglish) && validateMarks(marksObtainedInEnglish)
+				&& validateMarks(marksObtainedInScience) && validateAddress(address)
+				&& validateContactNumber(contactNumber)) {
 			this.name = name;
 			this.age = age;
+			this.address = address;
+			this.contactNumber = contactNumber;
 			this.rollNumber = rollNumber;
 			this.marksObtainedInEnglish = marksObtainedInEnglish;
 			this.marksObtainedInMaths = marksObtainedInMaths;
 			this.marksObtainedInScience = marksObtainedInScience;
-		}
-	}
 
-	public Student() {
-		// TODO Auto-generated constructor stub
+		}
 	}
 
 	public String getName() {
@@ -110,6 +112,27 @@ public class Student {
 		}
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		if (contactNumber != null && contactNumber.matches("\\d{10}")) {
+			this.contactNumber = contactNumber;
+		} else {
+			System.err.println("Invalid contact number for student ");
+		}
+
+	}
+
 	public boolean validateMarks(int marksForSubject) {
 		if (marksForSubject >= 0 && marksForSubject <= 100) {
 			return true;
@@ -170,18 +193,52 @@ public class Student {
 		}
 	}
 
+	public boolean validateAddress(String address) {
+		if (!address.isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean validateContactNumber(String contactNumber) {
+		if (contactNumber != null && contactNumber.matches("\\d{10}")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public void displayStudentInfo() {
+		System.out.println("-------------------Student Information-----------------");
+		System.out.println("NAME: "+ name);
+		System.out.println("AGE: "+ age);
+		System.out.println("ADDRESS: "+ address);
+		System.out.println("CONTACT NUMBER: "+ contactNumber);
+		System.out.println("ENGLISH MARKS: "+ marksObtainedInEnglish);
+		System.out.println("MATHS MARKS: "+ marksObtainedInMaths);
+		System.out.println("SCIENCE MARKS: "+ marksObtainedInScience);
+		System.out.println("-------------------------------------------------------");
+		System.out.println("TOTAL MARKS: "+ totalMarks);
+		System.out.println("PERCENAGE: "+ percentage + "%");
+		System.out.println("GRADE: " + grade);
+		System.out.println("-------------------------------------------------------");
+	}
+	
 	@Override
 	public String toString() {
-		return "Student [name=" + name + ", age=" + age + ", rollNumber=" + rollNumber + ", marksObtainedInEnglish="
-				+ marksObtainedInEnglish + ", marksObtainedInMaths=" + marksObtainedInMaths
-				+ ", marksObtainedInScience=" + marksObtainedInScience + ", grade=" + grade + ", totalMarks="
-				+ totalMarks + ", percentage=" + percentage + "]";
+		return "Student [name=" + name + ", age=" + age + ", address=" + address + ", contactNumber=" + contactNumber
+				+ ", rollNumber=" + rollNumber + ", marksObtainedInEnglish=" + marksObtainedInEnglish
+				+ ", marksObtainedInMaths=" + marksObtainedInMaths + ", marksObtainedInScience="
+				+ marksObtainedInScience + ", grade=" + grade + ", totalMarks=" + totalMarks + ", percentage="
+				+ percentage + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(age, grade, marksObtainedInEnglish, marksObtainedInMaths, marksObtainedInScience, name,
-				percentage, rollNumber, totalMarks);
+		return Objects.hash(address, age, contactNumber, grade, marksObtainedInEnglish, marksObtainedInMaths,
+				marksObtainedInScience, name, percentage, rollNumber, totalMarks);
 	}
 
 	@Override
@@ -193,7 +250,8 @@ public class Student {
 		if (getClass() != obj.getClass())
 			return false;
 		Student other = (Student) obj;
-		return age == other.age && Objects.equals(grade, other.grade)
+		return Objects.equals(address, other.address) && age == other.age
+				&& Objects.equals(contactNumber, other.contactNumber) && Objects.equals(grade, other.grade)
 				&& marksObtainedInEnglish == other.marksObtainedInEnglish
 				&& marksObtainedInMaths == other.marksObtainedInMaths
 				&& marksObtainedInScience == other.marksObtainedInScience && Objects.equals(name, other.name)
